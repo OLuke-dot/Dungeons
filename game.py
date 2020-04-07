@@ -1,6 +1,7 @@
 
 import player_fight
 import map_generator as mg
+import pygame
 
 
 def name():  # Function responsible for naming a player
