@@ -2,6 +2,7 @@
 import player_fight
 
 
+
 def name():  # Function responsible for naming a player
     print('Welcome to the game')
     print('Please choose a name for your player. Choose it wisely, as it cannot be changed later')
@@ -49,6 +50,7 @@ inv = player_fight.inventory_c()
 # give_points(player, inv)  # points distribution
 player.change_life(True)
 player.change_crits()
+
 while True:  # Main menu of a game
     x = input()
     if x.lower() == 'menu':
