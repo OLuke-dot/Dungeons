@@ -1,8 +1,5 @@
 # In this file player and inventory class are being declared. Here is a function responsible for fight menu, as well as functions responsible for attack itself and inventory
-'''TODO list
--Add more monsterss
--Change monster spawn to random
-'''
+
 import monsters_inc
 import inventory
 import random
@@ -29,6 +26,7 @@ class player:  # Main player class, responsible for holding player's attributes
                     }
         self.crit = 10
         self.low = 50
+        self.vel = 15
 
     def check_Status(self):   # Function responsible for displaying status of a player
         print('Here are your current statuses: \n')

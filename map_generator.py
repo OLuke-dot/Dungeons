@@ -1,56 +1,54 @@
-import random
+import pygame
 
 
-class map_generator():
+class game_graphics:
+    def __init__(self, player, inv):
+        self.winWidth = 960
+        self.winHeight = 540
+        self.x_p = 50
+        self.y_p = 50
+        self.width_p = 40
+        self.height_p = 60
+        self.mainLoop(player, inv)
 
-    def __init__(self, x, y):
-        self.map = []
-        for j in range(11):
-            self.column = []
-            for i in range(11):
-                self.column.append(' ')
-            self.map.append(self.column)
-        self.map[x][y] = 'o'
-        if x-1 == 0 or y-1 == 0:
-            pass
-        else:
-            self.map[x-1][y-1] = 'x'
-        if x+1 > 11 or y-1 < 0:
-            pass
-        else:
-            self.map[x+1][y-1] = 'x'
-        if x-1 < 0 or y+1 > 11:
-            pass
-        else:
-            self.map[x-1][y+1] = 'x'
-        if x+1 > 11 or y+1 > 11:
-            pass
-        else:
-            self.map[x+1][y+1] = 'x'
-
-    def print_map(self):
-        for i in range(11):
-            print('| ',  end=''),
-            for j in range(11):
-                print(self.map[i][j]+' | ',  end=''),
-            print('\n')
-        for i in range(12):
-            print('- ', end=''),
-        print('\n')
-
-    def generator(self):
-        for i in range(11):
-            for j in range(11):
-                x = random.choice([True, False])
-                if x is True:
-                    if self.map[i][j] == 'x' or self.map[i][j] == 'o':
-                        pass
-                    else:
-                        self.map[i][j] = 'x'
+    def mainLoop(self, player, inv):
+        isJump = False
+        jumpCount = 10
+        run = True
+        pygame.init()
+        window = pygame.display.set_mode((self.winWidth, self.winHeight))
+        pygame.display.set_caption('Dungeons')
+        while run:
+            pygame.time.delay(10)
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    save_file(player, inv)
+                    run = False
+            keys = pygame.key.get_pressed()
+            if keys[pygame.K_a] and self.x_p > player.vel:
+                self.x_p -= player.vel
+            if keys[pygame.K_d] and self.x_p < self.winWidth - self.width_p - player.vel:
+                self.x_p += player.vel
+            if not(isJump):
+                if keys[pygame.K_w] and self.y_p > player.vel:
+                    self.y_p -= player.vel
+                if keys[pygame.K_s] and self.y_p < self.winHeight - self.height_p - player.vel:
+                    self.y_p += player.vel
+                if keys[pygame.K_SPACE]:
+                    isJump = True
+            else:
+                if jumpCount >= -10:
+                    neg = 1
+                    if jumpCount < 0:
+                        neg = -1
+                    self.y_p -= (jumpCount**2) * 0.5 * neg
+                    jumpCount -= 1
                 else:
-                    pass
+                    isJump = False
+                    jumpCount = 10
+            window.fill((0, 0, 0))  # Probably to throw out
+            pygame.draw.rect(window, (255, 0, 0), (self.x_p, self.y_p, self.width_p, self.height_p))
+            pygame.display.update()
+        pygame.quit()
 
-
-x = map_generator(0, 0)
-# x.generator()
-x.print_map()
+    def save_file(self, player, inv)
