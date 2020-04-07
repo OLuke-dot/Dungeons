@@ -1,6 +1,6 @@
 
 import player_fight
-import map_generator as mg
+
 
 
 def name():  # Function responsible for naming a player
@@ -50,7 +50,7 @@ inv = player_fight.inventory_c()
 # give_points(player, inv)  # points distribution
 player.change_life(True)
 player.change_crits()
-g = mg.game_graphics(player, inv)
+
 while True:  # Main menu of a game
     x = input()
     if x.lower() == 'menu':
