@@ -4,6 +4,9 @@ import monsters_inc
 import inventory
 import random
 import randomize
+import pickle
+from os import path
+from os import listdir
 
 
 class player:  # Main player class, responsible for holding player's attributes
@@ -183,6 +186,7 @@ def menu(inv, player):  # Function responsible for displaying and managing playe
     print('-Check inventory')
     print('-Check your status')
     print('-Check your skills')
+    print('-Save game')
     print('-quit')
     while True:
         x = input()
@@ -193,12 +197,84 @@ def menu(inv, player):  # Function responsible for displaying and managing playe
                 player.check_Status()
             if x.lower() == 'check skills':
                 player.check_Skills(inv)
+            if x.lower() == 'save' or x.lower() == 'save game':
+                sv_game(player, inv)
             if x.lower() == 'quit':
                 print('You closed your menu')
                 break
         else:
             print('Incorrect command. Type help for guidance \n')
 
+
+def sv_game(player, inv):
+    while True:
+        print('Name your save file:')
+        x = input()
+        x += '.sav'
+        temp = path.abspath(path.curdir)
+        temp += '/Saves/'
+        print(temp)
+        allow = False
+        for i in listdir(temp):
+            if i == x:
+                print('There exists already file named ' + x +'. Would you like to overwrite it? \n')
+                y = input()
+                if y.lower() == 'yes' or y.lower() == 'y':
+                    allow = True
+                elif y.lower() == 'no' or y.lower() == 'n':
+                    print('Saving aborted \n')
+                    break
+                else:
+                    print('Unrecognized command \n Returning to menu...')
+            else:
+                allow = True
+        try:
+            if allow is True:
+                with open(temp+str(x), 'bw') as f:
+                    pickle.dump(player, f)
+                    pickle.dump(inv, f)
+                    print('Game saved.')
+                    break
+        except:
+            print('Saving failed. Please try again')
+            break
+
+
+def load_game(player, inv):
+    while True:
+        print('Choose which save to load')
+        temp = path.abspath(path.curdir)
+        temp += '/Saves/'
+        print(temp)
+        allow = False
+        for i in listdir(temp):
+            print(i - '.sav')
+
+        x = input()
+        for i in listdir(temp):
+            if i == x:
+                print('Load ' + x + '? \n')
+                y = input()
+                if y.lower() == 'yes' or y.lower() == 'y':
+                    allow = True
+                elif y.lower() == 'no' or y.lower() == 'n':
+                    print('Loading aborted \n')
+                    break
+                else:
+                    print('Unrecognized command \n')
+                    pass
+            else:
+                pass
+        try:
+            if allow is True:
+                with open(temp+str(x), 'bw') as f:
+                    pickle.load(player, f)
+                    pickle.load(inv, f)
+                    print('Loading File')
+                    return player, inv
+        except:
+            print('Saving failed. Please try again')
+            break
 
 def check_inv(player, inv):  # Function responsible for displaying and managing inventory menu
     while True:

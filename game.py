@@ -2,7 +2,6 @@
 import player_fight
 
 
-
 def name():  # Function responsible for naming a player
     print('Welcome to the game')
     print('Please choose a name for your player. Choose it wisely, as it cannot be changed later')
