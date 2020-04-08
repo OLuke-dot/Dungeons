@@ -213,6 +213,7 @@ def sv_game(player, inv):
         x += '.sav'
         temp = path.abspath(path.curdir)
         temp += '/Saves/'
+        print(temp)
         allow = False
         for i in listdir(temp):
             if i == x:
@@ -238,6 +239,42 @@ def sv_game(player, inv):
             print('Saving failed. Please try again')
             break
 
+
+def load_game(player, inv):
+    while True:
+        print('Choose which save to load')
+        temp = path.abspath(path.curdir)
+        temp += '/Saves/'
+        print(temp)
+        allow = False
+        for i in listdir(temp):
+            print(i - '.sav')
+
+        x = input()
+        for i in listdir(temp):
+            if i == x:
+                print('Load ' + x + '? \n')
+                y = input()
+                if y.lower() == 'yes' or y.lower() == 'y':
+                    allow = True
+                elif y.lower() == 'no' or y.lower() == 'n':
+                    print('Loading aborted \n')
+                    break
+                else:
+                    print('Unrecognized command \n')
+                    pass
+            else:
+                pass
+        try:
+            if allow is True:
+                with open(temp+str(x), 'bw') as f:
+                    pickle.load(player, f)
+                    pickle.load(inv, f)
+                    print('Loading File')
+                    return player, inv
+        except:
+            print('Saving failed. Please try again')
+            break
 
 def check_inv(player, inv):  # Function responsible for displaying and managing inventory menu
     while True:
