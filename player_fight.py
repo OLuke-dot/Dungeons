@@ -1,7 +1,7 @@
 # In this file player and inventory class are being declared. Here is a function responsible for fight menu, as well as functions responsible for attack itself and inventory
 
 import monsters_inc
-import inventory
+import items
 import random
 import randomize
 import pickle
@@ -86,9 +86,9 @@ class inventory_c():  # Main inventory class responsible for players inventory
     size = []
 
     def __init__(self):  # initialization
-        self.size.append(inventory.items[7])
-        self.size.append(inventory.items[0])
-        self.size.append(inventory.items[8])
+        self.size.append(items.items[7])
+        self.size.append(items.items[0])
+        self.size.append(items.items[8])
         for i in self.size:
             i['Eq'] = True
 
@@ -123,7 +123,7 @@ class inventory_c():  # Main inventory class responsible for players inventory
 
     # Function responsible for equiping items
     def equip(self, player, item_name):
-        for j in inventory.items:
+        for j in items.items:
             if j['Title'].lower() == item_name.lower():
                 item = j
                 break
@@ -147,7 +147,7 @@ class inventory_c():  # Main inventory class responsible for players inventory
 
     # Function responsible for dequiping items
     def dequip(self, player, item_name):
-        for j in inventory.items:
+        for j in items.items:
             if j['Title'].lower() == item_name.lower():
                 item = j
                 break
@@ -161,7 +161,7 @@ class inventory_c():  # Main inventory class responsible for players inventory
         print('You hide your ' + item['Title'] + ' in your backpack\n')
 
     def add_to_inv(self, item_name):
-        for j in inventory.items:
+        for j in items.items:
             if j['Title'].lower() == item_name.lower():
                 item = j
                 break
@@ -171,7 +171,7 @@ class inventory_c():  # Main inventory class responsible for players inventory
         self.size.append(item)
 
     def drop_inventory(self, item_name):
-        for j in inventory.items:
+        for j in items.items:
             if j['Title'].lower() == item_name.lower():
                 item = j
                 break
